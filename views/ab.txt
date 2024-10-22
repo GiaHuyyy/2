@@ -1,0 +1,193 @@
+// Enties
+//DienThoai
+@ManyToOne
+	@JoinColumn(name = "maNCC", referencedColumnName = "maNCC", nullable = false)
+	private NhaCungCap nhaCungCap;
+//NhaCungCap
+@OneToMany(mappedBy = "nhaCungCap", cascade = CascadeType.ALL)
+	private List<DienThoai> dienThoaiList;
+
+
+//dao
+List<DienThoai> findAll();
+
+	DienThoai addDienThoai(DienThoai dienThoai);
+
+	DienThoai updateDienThoai(DienThoai dienThoai);
+
+	public void deleteDienThoai(int id);
+	
+	DienThoai findById(int id);
+//
+List<NhaCungCap> findAll();
+	
+	public List<NhaCungCap> searchNhaCungCap(String search);
+
+//Impl
+public class DienThoaiImpl implements DienThoaiDAO {
+	private EntityManager entityManager;
+
+	public DienThoaiImpl(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	@Override
+	public List<DienThoai> findAll() {
+		entityManager.clear();
+		return entityManager.createQuery("from DienThoai", DienThoai.class).getResultList();
+	}
+
+	@Override
+	public DienThoai addDienThoai(DienThoai dienThoai) {
+		EntityTransaction transaction = null;
+		try {
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			entityManager.persist(dienThoai);
+			transaction.commit();
+			return dienThoai;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public DienThoai updateDienThoai(DienThoai dienThoai) {
+		EntityTransaction transaction = null;
+		try {
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			entityManager.merge(dienThoai);
+			transaction.commit();
+			return dienThoai;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void deleteDienThoai(int id) {
+		EntityTransaction trans = null;
+		try {
+			trans = entityManager.getTransaction();
+			trans.begin();
+
+			DienThoai dienThoai = entityManager.find(DienThoai.class, id);
+			if (dienThoai != null) {
+				entityManager.remove(dienThoai);
+			}
+
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (trans != null && trans.isActive()) {
+				trans.rollback();
+			}
+		}
+	}
+
+	@Override
+	public DienThoai findById(int id) {
+		return entityManager.find(DienThoai.class, id);
+	}
+//NCC
+public class NhaCungCapImpl implements NhaCungCapDAO {
+	private EntityManager entityManager;
+
+	public NhaCungCapImpl(EntityManager entityManager) {
+		this.entityManager = entityManager;
+
+	}
+
+	@Override
+	public List<NhaCungCap> findAll() {
+		return entityManager.createQuery("from NhaCungCap", NhaCungCap.class).getResultList();
+	}
+
+	@Override
+	public List<NhaCungCap> searchNhaCungCap(String search) {
+		List<NhaCungCap> results = new ArrayList<>();
+		if (search == null || search.trim().isEmpty()) {
+			return results;
+		}
+		try {
+			String queryStr = "SELECT ncc FROM NhaCungCap ncc WHERE " + "ncc.maNCC LIKE :searchTerm OR "
+					+ "ncc.tenNCC LIKE :searchTerm OR " + "ncc.diaChi LIKE :searchTerm OR "
+					+ "ncc.soDienThoai LIKE :searchTerm";
+
+			results = entityManager.createQuery(queryStr, NhaCungCap.class)
+					.setParameter("searchTerm", "%" + search.trim() + "%").getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+//
+<dependencies>
+		<!-- JSP and Servlets -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.servlet.jsp</groupId>
+			<artifactId>jakarta.servlet.jsp-api</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSTL -->
+		<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+		<!-- Jakarta Persistence API -->
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.4.4.Final</version>
+		</dependency>
+
+		<!-- MariaDB Client Java -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+
+		<!-- Hibernate Validator -->
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>8.0.0.Final</version>
+		</dependency>
+
+		<!-- CDI -->
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet-core</artifactId>
+			<version>5.1.2.Final</version>
+		</dependency>
+	</dependencies>
