@@ -96,4 +96,19 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		response.sendRedirect("DanhSachDienThoaiNCCServlet");
 	}
 
+// validator
+// Validator
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<DienThoai>> violations = validator.validate(dienThoai);
 
+        if (!violations.isEmpty()) {
+            StringBuilder errorMessage = new StringBuilder();
+            for (ConstraintViolation<DienThoai> violation : violations) {
+                System.out.println(violation.getMessage());
+            }
+            request.getRequestDispatcher("views/DienThoai.jsp").forward(request, response);
+        } else {
+            this.dienThoaiDAO.addDienThoai(dienThoai);
+            response.sendRedirect("DanhSachDienThoaiNCCServlet");
+        }
