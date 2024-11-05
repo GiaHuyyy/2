@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+    id="com.codeium.eclipse.feature"
+    label="Codeium Feature"
+    version="1.0.0.202409280124"
+    provider-name="Codeium">
+
+  <description url="https://codeium.com">
+    Eclipse Plugin for Codeium
+  </description>
+
+  <copyright url="http://www.codeium.com/">
+    Copyright 2023 Exafunction Inc.
+  </copyright>
+
+  <license url="">
+	Proprietary Software
+
+  Redistribution and use in source and binary forms, with or without modification, is not permitted in any form or by any means.  </license>
+  <plugin
+      id="com.codeium.eclipse.plugin"
+      download-size="21219"
+      install-size="53416"
+      version="1.0.0.202409280124"
+      unpack="false"/>
+</feature>

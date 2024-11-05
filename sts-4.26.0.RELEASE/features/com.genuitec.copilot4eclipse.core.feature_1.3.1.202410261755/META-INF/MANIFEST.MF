@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Created-By: Maven Archiver 3.6.1
+Build-Jdk-Spec: 17
+
+Name: p2.inf
+SHA-256-Digest: tJWtmb/lj9mrCcTf1fQTW9LaUe4tM8coJUipHuY3Qmo=
+
+Name: feature.xml
+SHA-256-Digest: GFv7CiJObICpu5ANBmCDdnU+s1QUw4TJoBugt2XFvZ4=
+

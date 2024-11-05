@@ -1,0 +1,14 @@
+!SESSION Mon Nov 04 22:52:04 ICT 2024 ------------------------------------------
+!ENTRY org.eclipse.equinox.launcher 4 0 2024-11-04 22:52:04.983
+!MESSAGE Could not find extension: reference:file:org.eclipse.osgi.compatibility.state_1.2.1000.v20240213-1057.jar
+!ENTRY org.eclipse.equinox.launcher 4 0 2024-11-04 22:52:05.084
+!MESSAGE Exception launching the Eclipse Platform:
+!STACK
+java.lang.ClassNotFoundException: org.eclipse.core.runtime.adaptor.EclipseStarter
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:445)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:593)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:665)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:605)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1481)
+
